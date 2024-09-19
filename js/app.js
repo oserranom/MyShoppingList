@@ -99,8 +99,9 @@ function insertHTML(){
             //Crear HTML
             const li = document.createElement("LI");
 
-            //Añadir texto
-            li.textContent = product.product;
+            //Añadir texto + El texto se añade a la current list con la primera letra en Mayúsucla y las siguientes en minúsucla
+            const productFormat = product.product.toLowerCase();
+            li.textContent = productFormat.charAt(0).toUpperCase() + productFormat.slice(1);
 
             //Asignar btn a cada li
             li.appendChild(deleteBtn); 
