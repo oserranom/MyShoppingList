@@ -2,7 +2,7 @@
 const formulario = document.querySelector("#formulario");
 const currentList = document.querySelector("#current-list"); 
 let products = []; 
-
+let emptyAlert = null;
 
 //Event Listeners
 eventListeners();
@@ -27,8 +27,6 @@ function eventListeners(){
         insertHTML(); 
     });
 }
-
-
 
 
 //Functions
@@ -114,6 +112,18 @@ function insertHTML(){
         });
     }
 
+    //Muestra alerta diferente si la current list está vacía
+    if (emptyAlert){
+        formulario.removeChild(emptyAlert);
+        emptyAlert = null;
+    } else {
+        if (products.length === 0){
+        emptyAlert = document.createElement('DIV');
+        emptyAlert.textContent = 'Your current list is empty';
+        emptyAlert.classList.add ('emptyListAlert');
+        formulario.appendChild(emptyAlert);
+    }};
+
     sincroStorage(); 
 }
 
@@ -144,6 +154,6 @@ function htmlClanner(){
 function maxChars() {
     const product = document.querySelector("#product").value;
     if (product.length >= 25) {
-        showError('Límite de caracteres alcanzado');
+        showError('Maximum characters reached');
     };
 };
