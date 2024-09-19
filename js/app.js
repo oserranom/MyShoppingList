@@ -139,6 +139,8 @@ function htmlClanner(){
     }
 };
 
+
+//Valida el máximo de caracteres y muestra alerta
 function maxChars() {
     const product = document.querySelector("#product").value;
     if (product.length >= 25) {
