@@ -11,6 +11,9 @@ function eventListeners(){
     //Cuando el usuario agrega un nuevo producto
     formulario.addEventListener("submit", addProduct);
 
+    //Cuando el usuario pasa los 25 caracteres
+    formulario.addEventListener('keypress', maxChars)
+
     //Cuando el documento se carga
     document.addEventListener("DOMContentLoaded", ()=>{
 
@@ -134,4 +137,11 @@ function htmlClanner(){
     while(currentList.firstChild){
         currentList.removeChild(currentList.firstChild); 
     }
-}
+};
+
+function maxChars() {
+    const product = document.querySelector("#product").value;
+    if (product.length >= 25) {
+        showError('Límite de caracteres alcanzado');
+    };
+};
