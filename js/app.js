@@ -2,7 +2,7 @@
 const formulario = document.querySelector("#formulario");
 const currentList = document.querySelector("#current-list"); 
 let products = []; 
-
+let emptyAlert = null;
 
 //Event Listeners
 eventListeners();
@@ -10,6 +10,9 @@ eventListeners();
 function eventListeners(){
     //Cuando el usuario agrega un nuevo producto
     formulario.addEventListener("submit", addProduct);
+
+    //Cuando el usuario pasa los 25 caracteres
+    formulario.addEventListener('keypress', maxChars)
 
     //Cuando el documento se carga
     document.addEventListener("DOMContentLoaded", ()=>{
@@ -24,8 +27,6 @@ function eventListeners(){
         insertHTML(); 
     });
 }
-
-
 
 
 //Functions
@@ -99,8 +100,9 @@ function insertHTML(){
             //Crear HTML
             const li = document.createElement("LI");
 
-            //Añadir texto
-            li.textContent = product.product;
+            //Añadir texto + El texto se añade a la current list con la primera letra en Mayúsucla y las siguientes en minúsucla
+            const productFormat = product.product.toLowerCase();
+            li.textContent = productFormat.charAt(0).toUpperCase() + productFormat.slice(1);
 
             //Asignar btn a cada li
             li.appendChild(deleteBtn); 
@@ -109,6 +111,18 @@ function insertHTML(){
             currentList.appendChild(li); 
         });
     }
+
+    //Muestra alerta diferente si la current list está vacía
+    if (emptyAlert){
+        formulario.removeChild(emptyAlert);
+        emptyAlert = null;
+    } else {
+        if (products.length === 0){
+        emptyAlert = document.createElement('DIV');
+        emptyAlert.textContent = 'Your current list is empty';
+        emptyAlert.classList.add ('emptyListAlert');
+        formulario.appendChild(emptyAlert);
+    }};
 
     sincroStorage(); 
 }
@@ -133,4 +147,13 @@ function htmlClanner(){
     while(currentList.firstChild){
         currentList.removeChild(currentList.firstChild); 
     }
-}
+};
+
+
+//Valida el máximo de caracteres y muestra alerta
+function maxChars() {
+    const product = document.querySelector("#product").value;
+    if (product.length >= 25) {
+        showError('Maximum characters reached');
+    };
+};
